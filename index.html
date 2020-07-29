@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amalie template</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        body{
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .top-bar{
+            background-color: #eeeeee;
+            color: rgba(0, 0, 0, .75);
+        }
+        .top-bar_content{
+            max-width: 1050px;
+            margin: 0 auto;
+            flex-direction: row;
+            display: flex;
+            justify-content: space-between;
+        }
+        .top-bar_menu, .top-bar_social, #search-button{
+            display: flex;
+            align-items: center;
+            height: 47px;
+        }
+        .top-bar_menu a{
+            font-size: 11px;
+            margin-right: 20px;
+        }
+        .top-bar_social a{
+            margin-right: 15px;
+        }
+        .top-bar_social{
+            font-size: 14px;
+        }
+        #search-button{
+            color: rgba(0, 0, 0, .4);
+            background-color: #f7f7f7;
+            padding: 0 16px;
+            transition: color 0.2s, background-color 0.2s ease-out;
+        }
+        .top-bar_menu a:hover, .top-bar_social a:hover{
+            color: rgba(0, 0, 0, .4);
+            cursor: pointer;
+        }
+        #search-button:hover{
+            background-color: rgba(0, 0, 0, 0.75);
+            cursor: pointer;
+            color: #f1f1f1a1;
+        }
+        #search-button i{
+            transition:  background-color 0.2s;
+        }
+        .top-bar_menu a, .top-bar_social a{
+            transition: color 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="top-bar_content">
+            <div class="top-bar_menu">
+                <a>H O M E</a>
+                <a>A B O U T</a>
+                <a>C O N T A C T</a>
+                <a>S H O P</a>
+                <a>D O W N L O A D</a>
+            </div>
+            <div class="top-bar_social">
+                <a class="fa fa-facebook"></a>
+                <a class="fa fa-twitter"></a>
+                <a class="fa fa-instagram"></a>
+                <a class="fa fa-pinterest"></a>
+                <a class="fa fa-tumblr"></a>
+                <i class="fa fa-search" id="search-button"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
