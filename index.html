@@ -7,6 +7,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <style>
+        /* top-bar */
         body{
             margin: 0;
             font-family: 'Open Sans', sans-serif;
@@ -16,7 +17,7 @@
             color: rgba(0, 0, 0, .75);
         }
         .top-bar_content{
-            max-width: 1050px;
+            max-width: 1035px;
             margin: 0 auto;
             flex-direction: row;
             display: flex;
@@ -48,37 +49,48 @@
             cursor: pointer;
         }
         #search-button:hover{
-            background-color: rgba(0, 0, 0, 0.75);
+            background-color: rgba(0, 0, 0, .75);
             cursor: pointer;
             color: #f1f1f1a1;
         }
         #search-button i{
-            transition:  background-color 0.2s;
+            transition:  background-color .2s;
         }
         .top-bar_menu a, .top-bar_social a{
-            transition: color 0.2s;
+            transition: color .2s;
+        }
+
+        /* Brand logo */
+        #brand-logo {
+            text-align: center;
+            padding: 40px;
         }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="top-bar_content">
-            <div class="top-bar_menu">
-                <a>H O M E</a>
-                <a>A B O U T</a>
-                <a>C O N T A C T</a>
-                <a>S H O P</a>
-                <a>D O W N L O A D</a>
-            </div>
-            <div class="top-bar_social">
-                <a class="fa fa-facebook"></a>
-                <a class="fa fa-twitter"></a>
-                <a class="fa fa-instagram"></a>
-                <a class="fa fa-pinterest"></a>
-                <a class="fa fa-tumblr"></a>
-                <i class="fa fa-search" id="search-button"></i>
+    <header>
+        <div class="top-bar">
+            <div class="top-bar_content">
+                <div class="top-bar_menu">
+                    <a>H O M E</a>
+                    <a>A B O U T</a>
+                    <a>C O N T A C T</a>
+                    <a>S H O P</a>
+                    <a>D O W N L O A D</a>
+                </div>
+                <div class="top-bar_social">
+                    <a class="fa fa-facebook"></a>
+                    <a class="fa fa-twitter"></a>
+                    <a class="fa fa-instagram"></a>
+                    <a class="fa fa-pinterest"></a>
+                    <a class="fa fa-tumblr"></a>
+                    <i class="fa fa-search" id="search-button"></i>
+                </div>
             </div>
         </div>
-    </div>
+        <div id="brand-logo">
+            <img src="images/amalie-logo-new.png" alt="amalie logo">
+        </div>
+    </header>
 </body>
 </html>
