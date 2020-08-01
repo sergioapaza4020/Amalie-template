@@ -92,5 +92,37 @@
             <img src="images/amalie-logo-new.png" alt="amalie logo">
         </div>
     </header>
+    <div id="posts">
+        <script>
+            const appId = '2SaxVBj34vV2ukQt8goY';
+            const postContainer = document.getElementById('posts');
+            fetch('https://dummyapi.io/data/api/post', {
+                method: 'GET',
+                headers: {
+                    'app-id': appId,
+                },
+            })
+            .then(response => response.json())
+            .then(response => {
+                const posts = response.data;
+                posts.forEach(post => {
+                    console.log('----');
+                    console.log(post);
+                    const postElem = document.createElement('div');
+                    const textElem = document.createElement('div');
+                    const imgElem = document.createElement('img');
+                    imgElem.src = post.image;
+                    imgElem.alt = post.owner.title;
+                    textElem.innerHTML = post.text;
+                    postElem.appendChild(imgElem);
+                    postElem.appendChild(textElem);
+                    postContainer.appendChild(postElem);
+                });
+            })
+            .catch((error) => {
+                console.error('Error: ', error);
+            });
+        </script>
+    </div>
 </body>
 </html>
