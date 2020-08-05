@@ -10,63 +10,62 @@
     <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
     <style>
         /* top-bar */
-        body{
+        body {
             margin: 0;
             font-family: 'Open Sans', sans-serif;
         }
-        .top-bar{
+        .top-bar {
             background-color: #eeeeee;
             color: rgba(0, 0, 0, .75);
+            width: 100%;
+            z-index: 100;
+            position: fixed;
         }
-        .top-bar_content{
+        .top-bar_content {
             max-width: 1035px;
             margin: 0 auto;
             flex-direction: row;
             display: flex;
             justify-content: space-between;
         }
-        .top-bar_menu, .top-bar_social, #search-button{
+        .top-bar_menu, .top-bar_social, #search-button {
             display: flex;
             align-items: center;
             height: 47px;
         }
-        .top-bar_menu a{
+        .top-bar_menu a {
             font-size: 11px;
             margin-right: 20px;
             letter-spacing: 2px;
+            transition: color .2s;
         }
-        .top-bar_social i{
-            margin-right: 15px;
-        }
-        .top-bar_social{
+        .top-bar_social i {
             font-size: 14px;
+            margin-right: 15px;
+            transition: color .2s;
         }
-        #search-button i{
+        #search-button {
             color: rgba(0, 0, 0, .4);
             background-color: #f7f7f7;
-            padding: 0 16px;
-            transition: color 0.2s, background-color 0.2s ease-out;
+            padding: 0 17px;
+            transition: color 0.2s, background-color .4s ease-out;
         }
-        .top-bar_menu a:hover, .top-bar_social i:hover{
+
+        .top-bar_menu a:hover, .top-bar_social i:hover {
             color: rgba(0, 0, 0, .4);
             cursor: pointer;
         }
-        #search-button:hover{
+        #search-button:hover {
             background-color: rgba(0, 0, 0, .75);
             cursor: pointer;
             color: #f1f1f1a1;
-        }
-        #search-button i{
-            transition:  background-color .2s;
-        }
-        .top-bar_menu a, .top-bar_social i{
-            transition: color .2s;
         }
 
         /* Brand logo */
         #brand-logo {
             text-align: center;
-            padding: 40px 0;
+            margin: 0 auto;
+            padding: 87px 0 40px;
             cursor: pointer;
         }
 
@@ -76,15 +75,27 @@
             margin: 0 auto;
             margin-bottom: 40px;
         }
-        .post-img {
+        .post-principalImg {
             width: 675px;
         }
+        /* .post-imgContainer {
+            position: sticky;
+            float: left;
+        }
+        .post-imgContainer img {
+            position: absolute;
+            left: 0;
+            transition: opacity .5s ease-in-out;
+        }
+        .post-imgContainer:hover {
+            opacity: 0;
+        } */
         .post-text {
             color: #777777;
+            margin-top: 25px;
             text-align: justify;
             font-size: 15px;
             font-family: 'Lora', serif;
-            /* line-height: 1.7px; */
         }
         .post-date {
             color: #aaaaaa;
@@ -107,6 +118,32 @@
         .post-tag:hover {
             text-decoration: underline;
         }
+        
+        .post-socialBtns {
+            display: block;
+            margin: 40px 0 100px;
+            text-align: center;
+            font-size: 14px;
+            color: #777777;
+        }
+        .share-box {
+            display: inline-block;
+            line-height: 42px;
+            text-align: center;
+            width: 44px;
+            height: 44px;
+            margin-right: 20px;
+            border-radius: 50%;
+            border: 4px double #dddddd;
+            transition: border .4s, color .4s, background-color .4s;
+        }
+        
+        .share-box:hover {
+            border: 0 none;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        
     </style>
 </head>
 <body>
@@ -125,6 +162,7 @@
                     <i class="fa fa-twitter"></i>
                     <i class="fa fa-instagram"></i>
                     <i class="fa fa-pinterest"></i>
+                    <i class="fa fa-heart"></i>
                     <i class="fa fa-tumblr"></i>
                     <i class="fa fa-search" id="search-button"></i>
                 </div>
@@ -148,14 +186,12 @@
             .then(response => {
                 const posts = response.data;
                 posts.forEach(post => {
-                    console.log('----');
-                    console.log(post);
-                    
-                    function capitalize(word) {
-                        return word[0].toUpperCase() + word.slice(1);
-                    }
-
-                    let getDate = function() {
+                console.log('----');
+                console.log(post);
+                let capitalize = function(word) {
+                    return word[0].toUpperCase() + word.slice(1);
+                }
+                let getDate = function() {
                         let date = new Date(post.publishDate);
                         let year = date.getFullYear();
                         let month = date.getMonth();
@@ -169,6 +205,8 @@
                         return dateName + ', ' + monthName + ' ' + dt + ', ' + year;
                     }
 
+                let createPostColumn = function(){
+                    
                     const postElem = document.createElement('div');
                     postElem.classList.add('post');
                     
@@ -181,25 +219,78 @@
                     const textElem = document.createElement('div');
                     textElem.classList.add('post-text');
 
+                    const imgContainer = document.createElement('div');
+                    imgContainer.classList.add('post-imgContainer')
+
                     const imgElem = document.createElement('img');
-                    imgElem.classList.add('post-img');
+                    imgElem.classList.add('post-principalImg');
+
+                    const imgPinElem = document.createElement('img')
+                    imgPinElem.classList.add('post-pinImg');
+                    
+                    const socialBtns = document.createElement('div');
+                    socialBtns.classList.add('post-socialBtns');
+
+                    for (let index = 0; index < 4; index++) {
+                        const btnElem = document.createElement('i');
+                        btnElem.classList.add('post-socialBtn');
+                        const shareBoxElem = document.createElement('span');
+                        shareBoxElem.classList.add('share-box');
+                        switch(index) {
+                            case 0:
+                            btnElem.classList.add('fa-facebook');
+                            btnElem.classList.add('fa');
+                                break;
+                            case 1:
+                            btnElem.classList.add('fa-twitter');
+                            btnElem.classList.add('fa');
+                                break;
+                            case 2:
+                            btnElem.classList.add('fa-pinterest');
+                            btnElem.classList.add('fa');
+                                break;
+                            case 3:
+                            btnElem.classList.add('fa-comment-o');
+                            btnElem.classList.add('fa');
+                                break;
+                        }
+                        shareBoxElem.appendChild(btnElem);
+                        socialBtns.appendChild(shareBoxElem);
+                    }
+                    
                     
                     dateElem.innerHTML = getDate();
+                    imgPinElem.src = 'images/pin_it.png';
                     imgElem.src = post.image;
                     textElem.innerHTML = capitalize(post.text) + '.';
-
                     post.tags.forEach(tag => {
                         const tagElem = document.createElement('span');
                         tagElem.classList.add('post-tag');
                         tagElem.innerHTML = capitalize(tag);
                         tagsElem.appendChild(tagElem);
                     })
-                    
+
                     postElem.appendChild(tagsElem);
+
                     postElem.appendChild(dateElem);
-                    postElem.appendChild(imgElem);
+                    
+                    imgContainer.appendChild(imgElem);
+                    // imgContainer.appendChild(imgPinElem);
+                    postElem.appendChild(imgContainer);
+
                     postElem.appendChild(textElem);
+
+                    postElem.appendChild(socialBtns);
+
                     postContainer.appendChild(postElem);
+
+                }
+                let createGeneralInfoColumn = function() {
+                    const GeneralInfoContainerElem = document.createElement('div');
+
+                    const aboutMeElem = document.createElement('div');
+                }
+                createPostColumn();
                 });
             })
             .catch((error) => {
