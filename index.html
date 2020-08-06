@@ -73,23 +73,24 @@
         .post {
             width: 675px;
             margin: 0 auto;
-            margin-bottom: 40px;
         }
-        .post-principalImg {
+        .post-imgContainer {
+            position: relative;
+        }
+        .post-img {
             width: 675px;
+            cursor: pointer;
         }
-        /* .post-imgContainer {
-            position: sticky;
-            float: left;
-        }
-        .post-imgContainer img {
+        .post-pinImg {
             position: absolute;
-            left: 0;
-            transition: opacity .5s ease-in-out;
+            display: none;
+            top: 8px;
+            left: 8px;
         }
-        .post-imgContainer:hover {
-            opacity: 0;
-        } */
+        .post-imgContainer:hover .post-pinImg {
+            display: block;
+            cursor: pointer;
+        }
         .post-text {
             color: #777777;
             margin-top: 25px;
@@ -223,9 +224,9 @@
                     imgContainer.classList.add('post-imgContainer')
 
                     const imgElem = document.createElement('img');
-                    imgElem.classList.add('post-principalImg');
+                    imgElem.classList.add('post-img');
 
-                    const imgPinElem = document.createElement('img')
+                    const imgPinElem = document.createElement('img');
                     imgPinElem.classList.add('post-pinImg');
                     
                     const socialBtns = document.createElement('div');
@@ -275,7 +276,7 @@
                     postElem.appendChild(dateElem);
                     
                     imgContainer.appendChild(imgElem);
-                    // imgContainer.appendChild(imgPinElem);
+                    imgContainer.appendChild(imgPinElem);
                     postElem.appendChild(imgContainer);
 
                     postElem.appendChild(textElem);
