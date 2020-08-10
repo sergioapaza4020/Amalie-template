@@ -8,11 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
     <style>
-        /* top-bar */
+        /* 1. header */
+        /* 1.1. top-bar */
         body {
             margin: 0;
-            font-family: 'Open Sans', sans-serif;
+            color: #777777;
+            font-family: 'Lora', serif;
         }
         .top-bar {
             background-color: #eeeeee;
@@ -20,6 +23,7 @@
             width: 100%;
             z-index: 100;
             position: fixed;
+            font-family: 'Open Sans', sans-serif;
         }
         .top-bar_content {
             max-width: 1035px;
@@ -61,7 +65,7 @@
             color: #f1f1f1a1;
         }
 
-        /* Brand logo */
+        /* 1.2. Brand logo */
         #brand-logo {
             text-align: center;
             margin: 0 auto;
@@ -69,10 +73,18 @@
             cursor: pointer;
         }
 
-        /* posts */
+        /* 2. principal content */
+        #main {
+            display: flex;
+            flex-direction: row-reverse;
+            margin: 0 auto;
+            max-width: 1135px;
+            justify-content: space-between;
+        }
+
+        /* 2.1. posts */
         .post {
             width: 675px;
-            margin: 0 auto;
         }
         .post-imgContainer {
             position: relative;
@@ -92,11 +104,9 @@
             cursor: pointer;
         }
         .post-text {
-            color: #777777;
             margin-top: 25px;
             text-align: justify;
             font-size: 15px;
-            font-family: 'Lora', serif;
         }
         .post-date {
             color: #aaaaaa;
@@ -120,6 +130,7 @@
             text-decoration: underline;
         }
         
+        /* 2.2. social box */
         .post-socialBtns {
             display: block;
             margin: 40px 0 100px;
@@ -138,13 +149,76 @@
             border: 4px double #dddddd;
             transition: border .4s, color .4s, background-color .4s;
         }
-        
         .share-box:hover {
+            cursor: pointer;
             border: 0 none;
             background-color: #000000;
-            color: #ffffff;
+            color: #f5c9c9;
         }
-        
+
+        /* 3. info */
+        #info {
+            width: 410px;
+        }
+        #info .info_about-me, #info .info_follow-us, #info .info_pinterest, #info .info_labels, #info .info_recent-posts, #info .info_blog-archive {
+            margin-bottom: 80px;
+        }
+        .title {
+            border-bottom: 1px solid #e7e7e7;
+            line-height: 0.1em;
+            letter-spacing: 2px;
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+        }
+        .title span {
+            font-weight: bold;
+            color: rgba(0, 0, 0, .75);
+            background-color: #ffffff;
+            padding: 0 25px;
+        }
+        /* 3.1. about me */
+        .about-me_content {
+            margin-top: 27px;
+        }
+        .about-me_content img {
+            margin: 0 55px;
+        }
+        .about-me_content p {
+            margin-top: 26px;
+        }
+        .about-me_content p span:hover {
+            cursor: pointer;
+            color: rgba(0, 0, 0, .9);
+        }
+        /* 3.2. follow us */
+        .first-file, .second-file {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        .first-file {
+            margin: 25px 0 10px;
+        }
+        .first-file div, .second-file div {
+            text-align: center;
+        }
+        .first-file div:hover, .second-file div:hover {
+            cursor: pointer;
+            color: black;
+        }
+        .follow-us_btn {
+            color: rgba(0, 0, 0, .75);
+            display: inline-block;
+            line-height: 39px;
+            text-align: center;
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            border: 4px double #dddddd;
+        }
+        .follow-us_container div p {
+            font-size: 11px;
+        }
     </style>
 </head>
 <body>
@@ -173,9 +247,102 @@
             <img src="images/amalie-logo-new.png" alt="amalie logo">
         </div>
     </header>
-    <div id="posts">
+    <div id="main">
+        <div id="posts">
+        </div>
+        <div id="info">
+            <div class="info_about-me">
+                <p class="title"><span>ABOUT ME</span></p>
+                <div class="about-me_content">
+                    <img src="images/aboutMeImage.jpg" alt="image of the autor">
+                    <p>I'm learning to code; this is my first "project", a blog made with HTML, CSS and JavaScript.
+                        <br>PD: this image is not my photo, I just needed a photo.
+                        <br><span>Learn more about me</span>
+                    </p>
+                </div>
+            </div>
+            <div class="info_follow-us">
+                <p class="title"><span>FOLLOW US</span></p>
+                <div class="follow-us_container">
+                    <div class="first-file">
+                        <div>
+                            <span class="follow-us_btn">
+                                <i class="fa fa-facebook"></i>
+                            </span>
+                            <p>FACEBOOK</p>
+                        </div>
+                        <div>
+                            <span class="follow-us_btn">
+                                <i class="fa fa-twitter"></i>
+                            </span>
+                            <p>TWITTER</p>
+                        </div>
+                        <div>
+                            <span class="follow-us_btn">
+                                <i class="fa fa-instagram"></i>
+                            </span>
+                            <p>INSTAGRAM</p>
+                        </div>
+                    </div>
+                    <div class="second-file">
+                        <div>
+                            <span class="follow-us_btn">
+                                <i class="fa fa-pinterest"></i>
+                            </span>    
+                            <p>PINTEREST</p>
+                        </div>
+                        <div>
+                            <span class="follow-us_btn">
+                                <i class="fa fa-heart"></i>
+                            </span>
+                            <p>BLOGLOVIN</p>
+                        </div>
+                        <div>
+                            <span class="follow-us_btn">
+                                <i class="fa fa-youtube-play"></i>
+                            </span>
+                            <p>YOUTUBE</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info_pinterest">
+                <p class="title"><span>PINTEREST</span></p>
+    
+            </div>
+            <div class="info_labels">
+                <p class="title"><span>LABELS</span></p>
+    
+            </div>
+            <div class="info_recent-posts">
+                <p class="title"><span>RECENT POSTS</span></p>
+    
+            </div>
+            <div class="info_blog-archive">
+                <p class="title"><span>BLOG ARCHIVE</span></p>
+    
+            </div>  
+        </div>
         <script>
+            let capitalize = function(word) {
+                return word[0].toUpperCase() + word.slice(1);
+            }
+            let getDate = function(IsoDate) {
+                let date = new Date(IsoDate);
+                let year = date.getFullYear();
+                let month = date.getMonth();
+                let dt = date.getDate() + 1;
+                if(dt <= 10){
+                    dt = '0' + dt;
+                }
+                let fullDate = new Date(year, month, dt);
+                let monthName = fullDate.toLocaleString('en-US', {month: 'long',});
+                let dateName = fullDate.toLocaleString('en-US', {weekday:'long',});
+                return dateName + ', ' + monthName + ' ' + dt + ', ' + year;
+            }
+
             const appId = '2SaxVBj34vV2ukQt8goY';
+            const mainContainer = document.getElementById('main');
             const postContainer = document.getElementById('posts');
             fetch('https://dummyapi.io/data/api/post', {
                 method: 'GET',
@@ -189,114 +356,82 @@
                 posts.forEach(post => {
                 console.log('----');
                 console.log(post);
-                let capitalize = function(word) {
-                    return word[0].toUpperCase() + word.slice(1);
-                }
-                let getDate = function() {
-                        let date = new Date(post.publishDate);
-                        let year = date.getFullYear();
-                        let month = date.getMonth();
-                        let dt = date.getDate() + 1;
-                        if(dt <= 10){
-                            dt = '0' + dt;
-                        }
-                        let fullDate = new Date(year, month, dt);
-                        let monthName = fullDate.toLocaleString('en-US', {month: 'long',});
-                        let dateName = fullDate.toLocaleString('en-US', {weekday:'long',});
-                        return dateName + ', ' + monthName + ' ' + dt + ', ' + year;
-                    }
+                const postElem = document.createElement('div');
+                postElem.classList.add('post');
+                
+                const tagsElem = document.createElement('div');
+                tagsElem.classList.add('post-tags');
 
-                let createPostColumn = function(){
-                    
-                    const postElem = document.createElement('div');
-                    postElem.classList.add('post');
-                    
-                    const tagsElem = document.createElement('div');
-                    tagsElem.classList.add('post-tags');
+                const dateElem = document.createElement('div');
+                dateElem.classList.add('post-date');
 
-                    const dateElem = document.createElement('div');
-                    dateElem.classList.add('post-date');
+                const textElem = document.createElement('div');
+                textElem.classList.add('post-text');
 
-                    const textElem = document.createElement('div');
-                    textElem.classList.add('post-text');
+                const imgContainer = document.createElement('div');
+                imgContainer.classList.add('post-imgContainer')
 
-                    const imgContainer = document.createElement('div');
-                    imgContainer.classList.add('post-imgContainer')
+                const imgElem = document.createElement('img');
+                imgElem.classList.add('post-img');
 
-                    const imgElem = document.createElement('img');
-                    imgElem.classList.add('post-img');
+                const imgPinElem = document.createElement('img');
+                imgPinElem.classList.add('post-pinImg');
+                
+                const socialBtns = document.createElement('div');
+                socialBtns.classList.add('post-socialBtns');
 
-                    const imgPinElem = document.createElement('img');
-                    imgPinElem.classList.add('post-pinImg');
-                    
-                    const socialBtns = document.createElement('div');
-                    socialBtns.classList.add('post-socialBtns');
-
-                    for (let index = 0; index < 4; index++) {
-                        const btnElem = document.createElement('i');
-                        btnElem.classList.add('post-socialBtn');
-                        const shareBoxElem = document.createElement('span');
-                        shareBoxElem.classList.add('share-box');
-                        switch(index) {
-                            case 0:
+                for (let index = 0; index < 4; index++) {
+                    const btnElem = document.createElement('i');
+                    btnElem.classList.add('post-socialBtn');
+                    const shareBoxElem = document.createElement('span');
+                    shareBoxElem.classList.add('share-box');
+                    switch(index) {
+                        case 0:
                             btnElem.classList.add('fa-facebook');
                             btnElem.classList.add('fa');
-                                break;
-                            case 1:
+                            break;
+                        case 1:
                             btnElem.classList.add('fa-twitter');
                             btnElem.classList.add('fa');
-                                break;
-                            case 2:
+                            break;
+                        case 2:
                             btnElem.classList.add('fa-pinterest');
                             btnElem.classList.add('fa');
-                                break;
-                            case 3:
+                            break;
+                        case 3:
                             btnElem.classList.add('fa-comment-o');
                             btnElem.classList.add('fa');
-                                break;
-                        }
-                        shareBoxElem.appendChild(btnElem);
-                        socialBtns.appendChild(shareBoxElem);
+                            break;
                     }
-                    
-                    
-                    dateElem.innerHTML = getDate();
-                    imgPinElem.src = 'images/pin_it.png';
-                    imgElem.src = post.image;
-                    textElem.innerHTML = capitalize(post.text) + '.';
-                    post.tags.forEach(tag => {
-                        const tagElem = document.createElement('span');
-                        tagElem.classList.add('post-tag');
-                        tagElem.innerHTML = capitalize(tag);
-                        tagsElem.appendChild(tagElem);
-                    })
-
-                    postElem.appendChild(tagsElem);
-
-                    postElem.appendChild(dateElem);
-                    
-                    imgContainer.appendChild(imgElem);
-                    imgContainer.appendChild(imgPinElem);
-                    postElem.appendChild(imgContainer);
-
-                    postElem.appendChild(textElem);
-
-                    postElem.appendChild(socialBtns);
-
-                    postContainer.appendChild(postElem);
-
+                    shareBoxElem.appendChild(btnElem);
+                    socialBtns.appendChild(shareBoxElem);
                 }
-                let createGeneralInfoColumn = function() {
-                    const GeneralInfoContainerElem = document.createElement('div');
+                
+                dateElem.innerHTML = getDate(post.publishDate);
+                imgPinElem.src = 'images/pin_it.png';
+                imgElem.src = post.image;
+                textElem.innerHTML = capitalize(post.text) + '.';
+                post.tags.forEach(tag => {
+                    const tagElem = document.createElement('span');
+                    tagElem.classList.add('post-tag');
+                    tagElem.innerHTML = capitalize(tag);
+                    tagsElem.appendChild(tagElem);
+                })
 
-                    const aboutMeElem = document.createElement('div');
-                }
-                createPostColumn();
-                });
-            })
-            .catch((error) => {
-                console.error('Error: ', error);
+                postElem.appendChild(tagsElem);
+                postElem.appendChild(dateElem);
+                imgContainer.appendChild(imgElem);
+                imgContainer.appendChild(imgPinElem);
+                postElem.appendChild(imgContainer);
+                postElem.appendChild(textElem);
+                postElem.appendChild(socialBtns);
+                postContainer.appendChild(postElem);
+                mainContainer.appendChild(postContainer);
             });
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        });
         </script>
     </div>
 </body>
