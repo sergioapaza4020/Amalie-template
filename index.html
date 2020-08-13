@@ -78,8 +78,8 @@
             display: flex;
             flex-direction: row-reverse;
             margin: 0 auto;
-            max-width: 1135px;
-            justify-content: space-between;
+            max-width: 1130px;
+            justify-content: space-evenly;
         }
 
         /* 2.1. posts */
@@ -129,7 +129,19 @@
         .post-tag:hover {
             text-decoration: underline;
         }
-        
+        .post-title {
+            color: #222;
+            font-size: 30px;
+            font-family: 'Raleway', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .post-title:hover {
+            cursor: pointer;
+            color: rgba(34, 34, 34, 0.7);
+        }
         /* 2.2. social box */
         .post-socialBtns {
             display: block;
@@ -265,6 +277,56 @@
         #span-labels p:hover {
             cursor: pointer;
         }
+        /* 3.4. recent posts */
+        .recent-post_div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .recent-post_img {
+            width: 100px;
+            margin-right: 14px;
+        }
+        .recent-post_left {
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            margin: 10px;
+            position: relative;
+        }
+        .recent-post_left > .recent-post_img {
+            position:absolute;
+            left: -100%;
+            right: -100%;
+            top: -100%;
+            bottom: -100%;
+            margin: auto;
+            min-height: 100%;
+            min-width: 100%;
+        }
+        .recent-post_date {
+            text-transform: uppercase;
+            font-size: 10px;
+            font-style: italic;
+            text-transform: lowercase;
+            text-transform: capitalize;
+        }
+        .recent-post_title {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            color: #333333;
+            text-transform: capitalize;
+            margin-bottom: 0;
+        }
+        .recent-post_right {
+            display: flex;
+            flex-direction: column;
+            align-self: flex-start;
+        }
+        .recent-post_img:hover, .recent-post_title:hover {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -360,9 +422,9 @@
                 <p class="title"><span>LABELS</span></p>
                 <span id="span-labels"></span>
             </div>
-            <div id="info_recent-posts">
+            <div class="info_recent-posts">
                 <p class="title"><span>RECENT POSTS</span></p>
-    
+                <div id="recent-posts_container"></div>
             </div>
             <div class="info_blog-archive">
                 <p class="title"><span>BLOG ARCHIVE</span></p>
@@ -370,21 +432,29 @@
             </div>  
         </div>
         <script>
-            let capitalize = function(word) {
+            let capitalize = (word) => {
                 return word[0].toUpperCase() + word.slice(1);
             }
-            let getDate = function(IsoDate) {
-                let date = new Date(IsoDate);
+            let transformIsoDate = (isoDate) => {
+                let date = new Date(isoDate);
                 let year = date.getFullYear();
                 let month = date.getMonth();
                 let dt = date.getDate() + 1;
                 if(dt < 10){
                     dt = '0' + dt;
                 }
-                let fullDate = new Date(year, month, dt);
-                let monthName = fullDate.toLocaleString('en-US', {month: 'long',});
-                let dateName = fullDate.toLocaleString('en-US', {weekday:'long',});
-                return dateName + ', ' + monthName + ' ' + dt + ', ' + year;
+                return [dt, month, year];
+            }
+            let getDate = (isoDate) => {
+                let date = transformIsoDate(isoDate);
+                let monthName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {month: 'long',});
+                let dateName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {weekday:'long',});
+                return dateName + ', ' + monthName + ' ' + date[0] + ', ' + date[2];
+            }
+            let getShortDate = (IsoDate) => {
+                let date = transformIsoDate(IsoDate);
+                let monthName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {month: 'short',});
+                return date[0] + ' ' + monthName + ' ' + date[2];
             }
             const appId = '2SaxVBj34vV2ukQt8goY';
             const mainContainer = document.getElementById('main');
@@ -398,15 +468,19 @@
             .then(response => response.json())
             .then(response => {
                 const posts = response.data;
+                let con = 0;
                 let tagList = ['human', 'person', 'india'];
                 posts.forEach(post => {
-                console.log('----');
-                console.log(post);
+                // console.log('----');
+                // console.log(post);
                 const postElem = document.createElement('div');
                 postElem.classList.add('post');
                 
                 const tagsElem = document.createElement('div');
                 tagsElem.classList.add('post-tags');
+
+                const titleElem = document.createElement('p');
+                titleElem.classList.add('post-title');
 
                 const dateElem = document.createElement('div');
                 dateElem.classList.add('post-date');
@@ -459,13 +533,14 @@
                     tagElem.innerHTML = capitalize(tag);
                     tagsElem.appendChild(tagElem);
                 })
-
+                titleElem.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
                 dateElem.innerHTML = getDate(post.publishDate);
                 imgPinElem.src = 'images/pin_it.png';
                 imgElem.src = post.image;
                 textElem.innerHTML = capitalize(post.text) + '.';
 
                 postElem.appendChild(tagsElem);
+                postElem.appendChild(titleElem);
                 postElem.appendChild(dateElem);
                 imgContainer.appendChild(imgElem);
                 imgContainer.appendChild(imgPinElem);
@@ -494,6 +569,31 @@
                         tagList.push(tag);
                     }
                 })
+                const recentPostsElem = document.getElementById('recent-posts_container');
+                if(con < 6) {
+                    const recentPostElem = document.createElement('div');
+                    recentPostElem.classList.add('recent-post_div');
+                    const recentPostLeft = document.createElement('div');
+                    recentPostLeft.classList.add('recent-post_left');
+                    const recentPostRight = document.createElement('div');
+                    recentPostRight.classList.add('recent-post_right');
+                    const recentPostImg = document.createElement('img');
+                    recentPostImg.classList.add('recent-post_img');
+                    const recentPostTitle = document.createElement('p');
+                    recentPostTitle.classList.add('recent-post_title');
+                    const recentPostDate = document.createElement('p');
+                    recentPostDate.classList.add('recent-post_date');
+                    recentPostImg.src = post.image;
+                    recentPostTitle.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
+                    recentPostDate.innerHTML = getShortDate(post.publishDate);
+                    recentPostLeft.appendChild(recentPostImg);
+                    recentPostRight.appendChild(recentPostTitle);
+                    recentPostRight.appendChild(recentPostDate);
+                    recentPostElem.appendChild(recentPostLeft);
+                    recentPostElem.appendChild(recentPostRight);
+                    recentPostsElem.appendChild(recentPostElem);
+                    con++;
+                }
             });
         })
         .catch((error) => {
