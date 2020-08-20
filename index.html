@@ -76,15 +76,19 @@
         /* 2. principal content */
         #main {
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: row;
             margin: 0 auto;
             max-width: 1130px;
             justify-content: space-evenly;
         }
-
+        #post-and-btn {
+            display: flex;
+            flex-direction: column;
+        }
         /* 2.1. posts */
         .post {
             width: 675px;
+            order: 1;
         }
         .post-imgContainer {
             position: relative;
@@ -95,13 +99,16 @@
         }
         .post-pinImg {
             position: absolute;
-            display: none;
             top: 8px;
             left: 8px;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity .2s linear;
         }
         .post-imgContainer:hover .post-pinImg {
-            display: block;
             cursor: pointer;
+            visibility: visible;
+            opacity: 1;
         }
         .post-text {
             margin-top: 25px;
@@ -167,10 +174,46 @@
             background-color: #000000;
             color: #f5c9c9;
         }
-
-        /* 3. info */
+        
+        /* 3. older stories & newer stories */
+    
+        #older-and-newer-stories {
+            order: 3;
+            display: flex;
+            flex-direction: row-reverse;
+            margin-bottom: 60px;
+        }
+        .olderNewer {
+            letter-spacing: 3px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        #older-and-newer-stories i {
+            color: white;
+            background-color: black;
+            text-align: center;
+            line-height: 39px;
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+        }
+        #older:hover, .stories:hover, #older-and-newer-stories i:hover {
+            cursor: pointer;
+        }
+        #older {
+            margin: 0 0 5px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        .stories {
+            margin: 0;
+            color: #222;
+            font-size: 18px;
+        }
+        /* 4. info */
         #info {
             width: 300px;
+            order: 2;
         }
         #info .info_about-me, #info .info_follow-us, #info .info_pinterest, #info .info_labels, #info .info_recent-posts, #info .info_blog-archive {
             margin-bottom: 60px;
@@ -188,7 +231,7 @@
             background-color: #ffffff;
             padding: 0 25px;
         }
-        /* 3.1. about me */
+        /* 4.1. about me */
         .about-me_content {
             margin-top: 27px;
         }
@@ -199,7 +242,7 @@
             cursor: pointer;
             color: rgba(0, 0, 0, .9);
         }
-        /* 3.2. follow us */
+        /* 4.2. follow us */
         .first-file, .second-file {
             display: flex;
             flex-direction: row;
@@ -228,29 +271,7 @@
         .follow-us_container div p {
             font-size: 11px;
         }
-        /*
-            jan 11, 2020
-            jan 04, 2020
-            apr 20, 2020
-            dec 19, 2019
-            mar 17, 2020
-            feb 18, 2020
-            may 05, 2020
-            may 22, 2020
-            feb 10, 2020
-            may 04, 2020
-            apr 07, 2020
-            jan 26, 2020
-            jan 22, 2020
-            nov 22, 2019
-            nov 14, 2019
-            jan 13, 2020
-            feb 17, 2020
-            apr 13, 2020
-            jan 13, 2020
-            jan 26, 2020
-         */
-        /* 3.2. pinterest */
+        /* 4.2. pinterest */
         #follow-pinterest {
             font-size: 18px;
             text-align: center;
@@ -260,7 +281,7 @@
             cursor: pointer;
             color: black;
         }
-        /* 3.3. labels */
+        /* 4.3. labels */
         .info_labels p {
             margin-bottom: 30px;
         }
@@ -277,7 +298,7 @@
         #span-labels p:hover {
             cursor: pointer;
         }
-        /* 3.4. recent posts */
+        /* 4.4. recent posts */
         .recent-post_div {
             display: flex;
             flex-direction: row;
@@ -356,7 +377,13 @@
         </div>
     </header>
     <div id="main">
-        <div id="posts">
+        <div id="post-and-btn">
+            <div id="posts">
+            </div>
+            <div id="older-and-newer-stories">
+                <i class="fa fa-chevron-right"></i>
+                <span class="olderNewer"><p id="older">OLDER</p><p class="stories">STORIES</p></span>
+            </div>
         </div>
         <div id="info">
             <div class="info_about-me">
@@ -428,8 +455,7 @@
             </div>
             <div class="info_blog-archive">
                 <p class="title"><span>BLOG ARCHIVE</span></p>
-    
-            </div>  
+                <div id="blog-archive_container"></div>  
         </div>
         <script>
             let capitalize = (word) => {
@@ -459,6 +485,7 @@
             const appId = '2SaxVBj34vV2ukQt8goY';
             const mainContainer = document.getElementById('main');
             const postContainer = document.getElementById('posts');
+
             fetch('https://dummyapi.io/data/api/post', {
                 method: 'GET',
                 headers: {
@@ -468,11 +495,69 @@
             .then(response => response.json())
             .then(response => {
                 const posts = response.data;
+                let tagList = [];
                 let con = 0;
-                let tagList = ['human', 'person', 'india'];
                 posts.forEach(post => {
-                // console.log('----');
-                // console.log(post);
+                    const labelsElem = document.getElementById('span-labels');
+                    post.tags.forEach(tag => {
+                        let get = 1;
+                        for(let i = 0; i < tagList.length; i++){
+                            if(tag !== tagList[i]) {
+                                get = 1;
+                            } else {
+                                get = 0;
+                                break;
+                            }
+                        }
+                        if(get === 1) {
+                            const labelElem = document.createElement('p');
+                            labelElem.innerHTML = tag;
+                            labelsElem.appendChild(labelElem);
+                            tagList.push(tag);
+                        }
+                    })
+                    const recentPostsElem = document.getElementById('recent-posts_container');
+                    if(con < 6) {
+                        const recentPostElem = document.createElement('div');
+                        recentPostElem.classList.add('recent-post_div');
+                        const recentPostLeft = document.createElement('div');
+                        recentPostLeft.classList.add('recent-post_left');
+                        const recentPostRight = document.createElement('div');
+                        recentPostRight.classList.add('recent-post_right');
+                        const recentPostImg = document.createElement('img');
+                        recentPostImg.classList.add('recent-post_img');
+                        const recentPostTitle = document.createElement('p');
+                        recentPostTitle.classList.add('recent-post_title');
+                        const recentPostDate = document.createElement('p');
+                        recentPostDate.classList.add('recent-post_date');
+                        recentPostImg.src = post.image;
+                        recentPostTitle.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
+                        recentPostDate.innerHTML = getShortDate(post.publishDate);
+                        recentPostLeft.appendChild(recentPostImg);
+                        recentPostRight.appendChild(recentPostTitle);
+                        recentPostRight.appendChild(recentPostDate);
+                        recentPostElem.appendChild(recentPostLeft);
+                        recentPostElem.appendChild(recentPostRight);
+                        recentPostsElem.appendChild(recentPostElem);
+                        con++;
+                    }
+                })
+            })
+            .catch((error) => {
+                console.error('Error: ', error);
+            });
+            fetch('https://dummyapi.io/data/api/post?limit=4&page=0', {
+                method: 'GET',
+                headers: {
+                    'app-id': appId,
+                },
+            })
+            .then(response => response.json())
+            .then(response => {
+                const posts = response.data;
+                posts.forEach(post => {
+                const postElems = document.getElementById('post-and-btn');
+
                 const postElem = document.createElement('div');
                 postElem.classList.add('post');
                 
@@ -548,52 +633,8 @@
                 postElem.appendChild(textElem);
                 postElem.appendChild(socialBtns);
                 postContainer.appendChild(postElem);
-                mainContainer.appendChild(postContainer);
-
-
-                const labelsElem = document.getElementById('span-labels');
-                post.tags.forEach(tag => {
-                    let get = 1;
-                    for(let i = 0; i < tagList.length; i++){
-                        if(tag !== tagList[i]) {
-                            get = 1;
-                        } else {
-                            get = 0;
-                            break;
-                        }
-                    }
-                    if(get === 1) {
-                        const labelElem = document.createElement('p');
-                        labelElem.innerHTML = tag;
-                        labelsElem.appendChild(labelElem);
-                        tagList.push(tag);
-                    }
-                })
-                const recentPostsElem = document.getElementById('recent-posts_container');
-                if(con < 6) {
-                    const recentPostElem = document.createElement('div');
-                    recentPostElem.classList.add('recent-post_div');
-                    const recentPostLeft = document.createElement('div');
-                    recentPostLeft.classList.add('recent-post_left');
-                    const recentPostRight = document.createElement('div');
-                    recentPostRight.classList.add('recent-post_right');
-                    const recentPostImg = document.createElement('img');
-                    recentPostImg.classList.add('recent-post_img');
-                    const recentPostTitle = document.createElement('p');
-                    recentPostTitle.classList.add('recent-post_title');
-                    const recentPostDate = document.createElement('p');
-                    recentPostDate.classList.add('recent-post_date');
-                    recentPostImg.src = post.image;
-                    recentPostTitle.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
-                    recentPostDate.innerHTML = getShortDate(post.publishDate);
-                    recentPostLeft.appendChild(recentPostImg);
-                    recentPostRight.appendChild(recentPostTitle);
-                    recentPostRight.appendChild(recentPostDate);
-                    recentPostElem.appendChild(recentPostLeft);
-                    recentPostElem.appendChild(recentPostRight);
-                    recentPostsElem.appendChild(recentPostElem);
-                    con++;
-                }
+                postElems.appendChild(postContainer);
+                mainContainer.appendChild(postElems);
             });
         })
         .catch((error) => {
