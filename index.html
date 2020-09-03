@@ -157,6 +157,9 @@
             font-size: 14px;
             color: #777777;
         }
+        .post-text {
+            line-height: 25px;
+        }
         .share-box {
             display: inline-block;
             line-height: 42px;
@@ -171,8 +174,8 @@
         .share-box:hover {
             cursor: pointer;
             border: 0 none;
-            background-color: #000000;
-            color: #f5c9c9;
+            background-color: black;
+            color: white;
         }
         
         /* 3. older stories & newer stories */
@@ -255,6 +258,7 @@
         }
         .about-me_content p {
             margin-top: 26px;
+            line-height: 25px;
         }
         .about-me_content p span:hover {
             cursor: pointer;
@@ -335,7 +339,7 @@
             position: relative;
         }
         .recent-post_left > .recent-post_img {
-            position:absolute;
+            position: absolute;
             left: -100%;
             right: -100%;
             top: -100%;
@@ -365,6 +369,84 @@
         }
         .recent-post_img:hover, .recent-post_title:hover {
             cursor: pointer;
+        }
+        /* 5. footer */
+        footer {
+            border-top: 1px solid #e5e5e5;
+            width: 100%;
+        }
+        .footer_container {
+            padding-top: 60px;
+            display: flex;
+            flex-direction: row;
+            max-width: 1035px;
+            margin: 0 auto 60px;
+            justify-content: space-around;
+        }
+        .footer_container div h4 {
+            font: 16px 'Raleway', sans-serif;
+            color: #222222;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .popular-post {
+            display: flex;
+            flex-direction: row;
+        }
+        .popular-post_image {
+            width: 80px;
+        }
+        .popular-post_imageContainer {
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            margin: 10px;
+            position: relative;
+        }
+        .popular-post_imageContainer > .popular-post_image {
+            position: absolute;
+            left: -100%;
+            right: -100%;
+            top: -100%;
+            bottom: -100%;
+            margin: auto;
+            min-height: 100%;
+            min-width: 100%;
+        }
+        .popular-post_title {
+            text-transform: capitalize;
+            font-size: 18px;
+            height: 18px;
+        }
+        .popular-post_title:hover, .popular-post_image:hover {
+            color: black;
+            cursor: pointer;
+        }
+        /* 6. bottom bar */
+        .bottom-bar {
+            background-color: #eee;
+            color: rgba(0, 0, 0, .75);
+            width: 100%;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .bottom-bar_content {
+            max-width: 1035px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .bottom-bar_content a {
+            display: flex;
+            flex-direction: row;
+            font-weight: bolder;
+            font-size: 11px;
+            align-items: center;
+            height: 47px;
+            color: black;
+            text-decoration: none;
+            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -480,37 +562,166 @@
             <div class="info_blog-archive">
                 <p class="title"><span>BLOG ARCHIVE</span></p>
                 <div id="blog-archive_container"></div>  
+            </div>
         </div>
-        <script>
-            let capitalize = (word) => {
-                return word[0].toUpperCase() + word.slice(1);
+    </div>
+    <footer>
+        <div id="fb-root"></div>
+        <script
+            async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v8.0"
+            nonce="Z8wup5Qo">
+        </script>
+        <div class="footer_container">
+            <div id="footer_popular-posts">
+                <h4>POPULAR POSTS</h4>
+                <div id="popular-posts_container"></div>
+            </div>
+            <div id="footer_facebook">
+                <h4>LIKE US ON FACEBOOK</h4>
+                <div class="fb-page"
+                    data-href="https://www.facebook.com/facebook"
+                    data-tabs="timeline"
+                    data-width="300"
+                    data-height="190"
+                    data-small-header="false"
+                    data-adapt-container-width="true"
+                    data-hide-cover="false"
+                    data-show-facepile="true">
+                    <blockquote
+                        cite="https://www.facebook.com/facebook"
+                        class="fb-xfbml-parse-ignore">
+                        <a href="https://www.facebook.com/facebook">
+                            Facebook
+                        </a>
+                    </blockquote>
+                </div>
+            </div>
+            <div id="footer_flickr">
+                <h4>FLICKR IMAGES</h4>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <div class="bottom-bar_content">
+                <p>Free code</p>
+                <a href="#up"><p>BACK TO TOP</p><i class="fa fa-angle-double-up"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="node_modules/simplescrollup/simplescrollup.js"></script>
+    <script>
+        let capitalize = (word) => {
+            return word[0].toUpperCase() + word.slice(1);
+        }
+        let transformIsoDate = (isoDate) => {
+            let date = new Date(isoDate);
+            let year = date.getFullYear();
+            let month = date.getMonth();
+            let dt = date.getDate() + 1;
+            if(dt < 10){
+                dt = '0' + dt;
             }
-            let transformIsoDate = (isoDate) => {
-                let date = new Date(isoDate);
-                let year = date.getFullYear();
-                let month = date.getMonth();
-                let dt = date.getDate() + 1;
-                if(dt < 10){
-                    dt = '0' + dt;
-                }
-                return [dt, month, year];
-            }
-            let getDate = (isoDate) => {
-                let date = transformIsoDate(isoDate);
-                let monthName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {month: 'long',});
-                let dateName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {weekday:'long',});
-                return dateName + ', ' + monthName + ' ' + date[0] + ', ' + date[2];
-            }
-            let getShortDate = (IsoDate) => {
-                let date = transformIsoDate(IsoDate);
-                let monthName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {month: 'short',});
-                return date[0] + ' ' + monthName + ' ' + date[2];
-            }
-            const appId = '2SaxVBj34vV2ukQt8goY';
-            const mainContainer = document.getElementById('main');
-            const postContainer = document.getElementById('posts');
+            return [dt, month, year];
+        }
+        let getDate = (isoDate) => {
+            let date = transformIsoDate(isoDate);
+            let monthName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {month: 'long',});
+            let dateName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {weekday:'long',});
+            return dateName + ', ' + monthName + ' ' + date[0] + ', ' + date[2];
+        }
+        let getShortDate = (IsoDate) => {
+            let date = transformIsoDate(IsoDate);
+            let monthName = new Date(date[0], date[1], date[2]).toLocaleString('en-US', {month: 'short',});
+            return date[0] + ' ' + monthName + ' ' + date[2];
+        }
 
-            fetch('https://dummyapi.io/data/api/post', {
+        let fetchPage = `https://dummyapi.io/data/api/post/`;
+        const appId = '2SaxVBj34vV2ukQt8goY';
+        const mainContainer = document.getElementById('main');
+        const postContainer = document.getElementById('posts');
+
+        fetch('https://dummyapi.io/data/api/post', {
+            method: 'GET',
+            headers: {
+                'app-id': appId,
+            },
+        })
+        .then(response => response.json())
+        .then(response => {
+            const posts = response.data;
+            let tagList = [];
+            let con = 0;
+            posts.forEach(post => {
+                const labelsElem = document.getElementById('span-labels');
+                post.tags.forEach(tag => {
+                    let get = 1;
+                    for(let i = 0; i < tagList.length; i++){
+                        if(tag !== tagList[i]) {
+                            get = 1;
+                        } else {
+                            get = 0;
+                            break;
+                        }
+                    }
+                    if(get === 1) {
+                        const labelElem = document.createElement('p');
+                        labelElem.innerHTML = tag;
+                        labelsElem.appendChild(labelElem);
+                        tagList.push(tag);
+                    }
+                })
+                const recentPostsElem = document.getElementById('recent-posts_container');
+                if(con < 6) {
+                    const recentPostElem = document.createElement('div');
+                    recentPostElem.classList.add('recent-post_div');
+                    const recentPostLeft = document.createElement('div');
+                    recentPostLeft.classList.add('recent-post_left');
+                    const recentPostRight = document.createElement('div');
+                    recentPostRight.classList.add('recent-post_right');
+                    const recentPostImg = document.createElement('img');
+                    recentPostImg.classList.add('recent-post_img');
+                    const recentPostTitle = document.createElement('p');
+                    recentPostTitle.classList.add('recent-post_title');
+                    const recentPostDate = document.createElement('p');
+                    recentPostDate.classList.add('recent-post_date');
+                    recentPostImg.src = post.image;
+                    recentPostTitle.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
+                    recentPostDate.innerHTML = getShortDate(post.publishDate);
+                    recentPostLeft.appendChild(recentPostImg);
+                    recentPostRight.appendChild(recentPostTitle);
+                    recentPostRight.appendChild(recentPostDate);
+                    recentPostElem.appendChild(recentPostLeft);
+                    recentPostElem.appendChild(recentPostRight);
+                    recentPostsElem.appendChild(recentPostElem);
+                    con++;
+                }
+                const popularPostsContainer = document.getElementById('popular-posts_container');
+                if(con > 5 && con < 8) {
+                    const popularPost = document.createElement('div');
+                    popularPost.classList.add('popular-post');
+                    const popularPostImgContainer = document.createElement('div');
+                    popularPostImgContainer.classList.add('popular-post_imageContainer');
+                    const popularPostImg = document.createElement('img');
+                    popularPostImg.classList.add('popular-post_image');
+                    const popularPostTitle = document.createElement('p');
+                    popularPostTitle.classList.add('popular-post_title');
+                    popularPostImg.src = post.image;
+                    popularPostTitle.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
+                    popularPostImgContainer.appendChild(popularPostImg);
+                    popularPost.appendChild(popularPostImgContainer);
+                    popularPost.appendChild(popularPostTitle);
+                    popularPostsContainer.appendChild(popularPost);
+                    con++;
+                }
+            })
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        });
+
+        
+        const createPostFunct = (onePost) => {
+            fetch(onePost, {
                 method: 'GET',
                 headers: {
                     'app-id': appId,
@@ -519,177 +730,124 @@
             .then(response => response.json())
             .then(response => {
                 const posts = response.data;
-                let tagList = [];
-                let con = 0;
                 posts.forEach(post => {
-                    const labelsElem = document.getElementById('span-labels');
-                    post.tags.forEach(tag => {
-                        let get = 1;
-                        for(let i = 0; i < tagList.length; i++){
-                            if(tag !== tagList[i]) {
-                                get = 1;
-                            } else {
-                                get = 0;
+                    const postElems = document.getElementById('post-and-btn');
+                    const postElem = document.createElement('div');
+                    postElem.classList.add('post');
+                    const tagsElem = document.createElement('div');
+                    tagsElem.classList.add('post-tags');
+                    const titleElem = document.createElement('p');
+                    titleElem.classList.add('post-title');    
+                    const dateElem = document.createElement('div');
+                    dateElem.classList.add('post-date');
+                    const textElem = document.createElement('div');
+                    textElem.classList.add('post-text');
+                    const imgContainer = document.createElement('div');
+                    imgContainer.classList.add('post-imgContainer')
+                    const imgElem = document.createElement('img');
+                    imgElem.classList.add('post-img');    
+                    const imgPinElem = document.createElement('img');
+                    imgPinElem.classList.add('post-pinImg');                        
+                    const socialBtns = document.createElement('div');
+                    socialBtns.classList.add('post-socialBtns');
+                    for (let index = 0; index < 4; index++) {
+                        const btnElem = document.createElement('i');
+                        btnElem.classList.add('post-socialBtn');
+                        const shareBoxElem = document.createElement('span');
+                        shareBoxElem.classList.add('share-box');
+                        switch(index) {
+                            case 0:
+                                btnElem.classList.add('fa-facebook');
+                                btnElem.classList.add('fa');
                                 break;
-                            }
+                            case 1:
+                                btnElem.classList.add('fa-twitter');
+                                btnElem.classList.add('fa');
+                                break;
+                            case 2:
+                                btnElem.classList.add('fa-pinterest');
+                                btnElem.classList.add('fa');
+                                break;
+                            case 3:
+                                btnElem.classList.add('fa-comment-o');
+                                btnElem.classList.add('fa');
+                                break;
                         }
-                        if(get === 1) {
-                            const labelElem = document.createElement('p');
-                            labelElem.innerHTML = tag;
-                            labelsElem.appendChild(labelElem);
-                            tagList.push(tag);
-                        }
-                    })
-                    const recentPostsElem = document.getElementById('recent-posts_container');
-                    if(con < 6) {
-                        const recentPostElem = document.createElement('div');
-                        recentPostElem.classList.add('recent-post_div');
-                        const recentPostLeft = document.createElement('div');
-                        recentPostLeft.classList.add('recent-post_left');
-                        const recentPostRight = document.createElement('div');
-                        recentPostRight.classList.add('recent-post_right');
-                        const recentPostImg = document.createElement('img');
-                        recentPostImg.classList.add('recent-post_img');
-                        const recentPostTitle = document.createElement('p');
-                        recentPostTitle.classList.add('recent-post_title');
-                        const recentPostDate = document.createElement('p');
-                        recentPostDate.classList.add('recent-post_date');
-                        recentPostImg.src = post.image;
-                        recentPostTitle.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
-                        recentPostDate.innerHTML = getShortDate(post.publishDate);
-                        recentPostLeft.appendChild(recentPostImg);
-                        recentPostRight.appendChild(recentPostTitle);
-                        recentPostRight.appendChild(recentPostDate);
-                        recentPostElem.appendChild(recentPostLeft);
-                        recentPostElem.appendChild(recentPostRight);
-                        recentPostsElem.appendChild(recentPostElem);
-                        con++;
+                        shareBoxElem.appendChild(btnElem);
+                        socialBtns.appendChild(shareBoxElem);
                     }
-                })
+
+                    post.tags.forEach(tag => {
+                        const tagElem = document.createElement('span');
+                        tagElem.classList.add('post-tag');
+                        tagElem.innerHTML = capitalize(tag);
+                        tagsElem.appendChild(tagElem);
+                    });
+                    titleElem.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
+                    dateElem.innerHTML = getDate(post.publishDate);
+                    imgPinElem.src = 'images/pin_it.png';
+                    imgElem.src = post.image;
+                    textElem.innerHTML = capitalize(post.text) + '.';
+
+                    // const singlePostContainer = document.createElement('div');
+                    // singlePostContainer.classList.add('single-post');
+                    // singlePostContainer.innerHTML = 'f bro';
+
+                    postElem.appendChild(tagsElem);
+                    postElem.appendChild(titleElem);
+                    postElem.appendChild(dateElem);
+                    imgContainer.appendChild(imgElem);
+                    imgContainer.appendChild(imgPinElem);
+                    postElem.appendChild(imgContainer);
+                    postElem.appendChild(textElem);
+                    postElem.appendChild(socialBtns);
+                    postContainer.appendChild(postElem);
+                    postElems.appendChild(postContainer);
+                    mainContainer.appendChild(postElems);
+
+                    // titleElem.addEventListener('click', () => {
+                    //     mainContainer.removeChild(postContainer);
+                    //     mainContainer.appendChild(singlePostContainer);
+                    // })
+                });
             })
             .catch((error) => {
                 console.error('Error: ', error);
             });
+        }
 
-            
-            const createPostFunct = () => {
-                fetch(`https://dummyapi.io/data/api/post?limit=4&page=${page}`, {
-                    method: 'GET',
-                    headers: {
-                        'app-id': appId,
-                    },
-                })
-                .then(response => response.json())
-                .then(response => {
-                    const posts = response.data;
-                    posts.forEach(post => {
-                        const postElems = document.getElementById('post-and-btn');
-                        const postElem = document.createElement('div');
-                        postElem.classList.add('post');
-                        const tagsElem = document.createElement('div');
-                        tagsElem.classList.add('post-tags');
-                        const titleElem = document.createElement('p');
-                        titleElem.classList.add('post-title');    
-                        const dateElem = document.createElement('div');
-                        dateElem.classList.add('post-date');
-                        const textElem = document.createElement('div');
-                        textElem.classList.add('post-text');
-                        const imgContainer = document.createElement('div');
-                        imgContainer.classList.add('post-imgContainer')
-                        const imgElem = document.createElement('img');
-                        imgElem.classList.add('post-img');    
-                        const imgPinElem = document.createElement('img');
-                        imgPinElem.classList.add('post-pinImg');                        
-                        const socialBtns = document.createElement('div');
-                        socialBtns.classList.add('post-socialBtns');
-                        for (let index = 0; index < 4; index++) {
-                            const btnElem = document.createElement('i');
-                            btnElem.classList.add('post-socialBtn');
-                            const shareBoxElem = document.createElement('span');
-                            shareBoxElem.classList.add('share-box');
-                            switch(index) {
-                                case 0:
-                                    btnElem.classList.add('fa-facebook');
-                                    btnElem.classList.add('fa');
-                                    break;
-                                case 1:
-                                    btnElem.classList.add('fa-twitter');
-                                    btnElem.classList.add('fa');
-                                    break;
-                                case 2:
-                                    btnElem.classList.add('fa-pinterest');
-                                    btnElem.classList.add('fa');
-                                    break;
-                                case 3:
-                                    btnElem.classList.add('fa-comment-o');
-                                    btnElem.classList.add('fa');
-                                    break;
-                            }
-                            shareBoxElem.appendChild(btnElem);
-                            socialBtns.appendChild(shareBoxElem);
-                        }
+        let page = 0;
+        let onePost = fetchPage + '?limit=4&page=' + page;
 
-                        post.tags.forEach(tag => {
-                           const tagElem = document.createElement('span');
-                            tagElem.classList.add('post-tag');
-                            tagElem.innerHTML = capitalize(tag);
-                            tagsElem.appendChild(tagElem);
-                        });
-                        titleElem.innerHTML = post.owner.title + ' ' + post.owner.firstName + ' ' + post.owner.lastName;
-                        dateElem.innerHTML = getDate(post.publishDate);
-                        imgPinElem.src = 'images/pin_it.png';
-                        imgElem.src = post.image;
-                        textElem.innerHTML = capitalize(post.text) + '.';
-
-                        postElem.appendChild(tagsElem);
-                        postElem.appendChild(titleElem);
-                        postElem.appendChild(dateElem);
-                        imgContainer.appendChild(imgElem);
-                        imgContainer.appendChild(imgPinElem);
-                        postElem.appendChild(imgContainer);
-                        postElem.appendChild(textElem);
-                        postElem.appendChild(socialBtns);
-                        postContainer.appendChild(postElem);
-                        postElems.appendChild(postContainer);
-                        mainContainer.appendChild(postElems);
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error: ', error);
-                });
+        const olderNewerContainer = document.getElementById('olderNewerContainer');
+        const olderStories = document.getElementById('older-stories');
+        const newerStories = document.getElementById('newer-stories');
+        olderNewerContainer.removeChild(newerStories);
+        olderStories.addEventListener('click', () => {
+            if(page === 2) {
+                olderNewerContainer.removeChild(olderStories);
             }
-
-            let page = 0;
-            const olderNewerContainer = document.getElementById('olderNewerContainer');
-            const olderStories = document.getElementById('older-stories');
-            const newerStories = document.getElementById('newer-stories');
-            olderNewerContainer.removeChild(newerStories);
-            olderStories.addEventListener('click', () => {
-                if(page === 2){
-                    olderNewerContainer.removeChild(olderStories);
-                }
-                if(page >= 0 && page <= 3) {
-                    olderNewerContainer.appendChild(newerStories);
-                }
-                postContainer.innerHTML = '';
-                page++;
-                createPostFunct();
-            });
-            newerStories.addEventListener('click', () => {
-                if(page === 1) {
-                    olderNewerContainer.removeChild(newerStories);
-                }
-                if(page >= 0 && page <= 3) {
-                    olderNewerContainer.appendChild(olderStories);
-                }
-                postContainer.innerHTML = '';
-                page--;
-                createPostFunct();
-            });
-            console.log('-----');
-            console.log(page);
-            createPostFunct();
-        </script>
-    </div>
+            if (page >= 0 && page <= 3) {
+                olderNewerContainer.appendChild(newerStories);
+            }
+            postContainer.innerHTML = '';
+            page++;
+            onePost = fetchPage + '?limit=4&page=' + page;
+            createPostFunct(onePost);
+        });
+        newerStories.addEventListener('click', () => {
+            if(page === 1) {
+                olderNewerContainer.removeChild(newerStories);
+            }
+            if(page >= 0 && page <= 3) {
+                olderNewerContainer.appendChild(olderStories);
+            }
+            postContainer.innerHTML = '';
+            page--;
+            onePost = fetchPage + '?limit=4&page=' + page;
+            createPostFunct(onePost);
+        });
+        createPostFunct(onePost);
+    </script>
 </body>
 </html>
